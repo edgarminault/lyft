@@ -1,7 +1,7 @@
 import pandas as pd
 from google.cloud import storage
 
-from lyft.parameters import BUCKET_NAME, AWS_PATH, DIST_ARGS
+from lyft.parameters import BUCKET_NAME, AWS_PATH
 
 
 def train_data(nrows=10000, local=False, **kwargs):
