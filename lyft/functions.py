@@ -2,17 +2,18 @@ import time
 import numpy as np
 
 
-def haversine_vectorized(
+def globe_distance(
     df,
-    start_lat="pickup_latitude",
-    start_lon="pickup_longitude",
-    end_lat="dropoff_latitude",
-    end_lon="dropoff_longitude",
+    start_lat="start_lat",
+    start_lon="start_lon",
+    end_lat="end_lat",
+    end_lon="end_lon",
 ):
     """
-    Calculate the distance between two points and taking into account the curvature
-    of the Earth.
-    Distances are in kms
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees).
+    Vectorized version of the haversine distance for pandas df
+    Computes distance in kms
     """
 
     lat_1_rad, lon_1_rad = np.radians(df[start_lat].astype(float)), np.radians(
@@ -29,7 +30,8 @@ def haversine_vectorized(
         + np.cos(lat_1_rad) * np.cos(lat_2_rad) * np.sin(dlon / 2.0) ** 2
     )
     c = 2 * np.arcsin(np.sqrt(a))
-    return 6371 * c
+    distance = 6371 * c
+    return distance
 
 
 def minkowski_distance(
@@ -56,5 +58,5 @@ def compute_error(y_pred, y_true):
     Error.
     """
     mae = mean_absolute_error(y_true, y_pred)
-    mse = mean_squared_error(y_true,y_pred)
-    return {'mae': mae, 'mse': mse}
+    mse = mean_squared_error(y_true, y_pred)
+    return {"mae": mae, "mse": mse}

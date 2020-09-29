@@ -1,14 +1,7 @@
 import pandas as pd
 from google.cloud import storage
 
-from lyft.parameters import BUCKET_NAME, AWS_PATH
-
-DIST_ARGS = dict(
-    start_lat="pickup_latitude",
-    start_lon="pickup_longitude",
-    end_lat="dropoff_latitude",
-    end_lon="dropoff_longitude",
-)
+from lyft.parameters import BUCKET_NAME, AWS_PATH, DIST_ARGS
 
 
 def train_data(nrows=10000, local=False, **kwargs):
