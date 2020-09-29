@@ -41,7 +41,7 @@ def minkowski_distance(
     end_lon="dropoff_longitude",
 ):
     """
-    Calculate euclidian or squared distances.
+    Calculate 1 to n dimensions distances.
     """
     x1 = df[start_lon]
     x2 = df[end_lon]
@@ -50,5 +50,11 @@ def minkowski_distance(
     return ((abs(x2 - x1) ** p) + (abs(y2 - y1)) ** p) ** (1 / p)
 
 
-def compute_rmse(y_pred, y_true):
-    return np.sqrt(((y_pred - y_true) ** 2).mean())
+def compute_error(y_pred, y_true):
+    """
+    Computes an error hash comprised of both Mean Absolute Error and Mean Squared
+    Error.
+    """
+    mae = mean_absolute_error(y_true, y_pred)
+    mse = mean_squared_error(y_true,y_pred)
+    return {'mae': mae, 'mse': mse}
