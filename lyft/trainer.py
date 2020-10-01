@@ -1,7 +1,6 @@
 import multiprocessing
 import time
 import warnings
-import category_encoders as ce
 import joblib
 import mlflow
 import pandas as pd
@@ -222,31 +221,30 @@ if __name__ == "__main__":
         "time_features",
     ]
     for fe in feature_engineering:
-        for mod in models:
-            for dist in distance_type:
-                params = dict(
-                    nrows=10000,
-                    local=False,  # set to False to get data from GCP (Storage or BigQuery)
-                    mlflow=True,  # set to True to log params to mlflow
-                    experiment_name=experiment,
-                    distance_type=dist,
-                    feateng=fe,
-                    estimator=Lasso,
-                )
-                print("############   Loading Data   ############")
-                df = train_data(**params)
-                df = clean_df(df)
-                y_train = df["fare_amount"]
-                X_train = df.drop("fare_amount", axis=1)
-                del df
-                print("shape: {}".format(X_train.shape))
-                print("size: {} Mb".format(X_train.memory_usage().sum() / 1e6))
-                # Train and save model, locally and
-                t = Trainer(X=X_train, y=y_train, **params)
-                del X_train, y_train
-                print(colored("############  Training model   ############", "red"))
-                t.train()
-                print(colored("############  Evaluating model ############", "blue"))
-                t.evaluate()
-                print(colored("############   Saving model    ############", "green"))
-                t.save_model()
+        for dist in distance_type:
+            params = dict(
+                nrows=10000,
+                local=False,  # set to False to get data from GCP (Storage or BigQuery)
+                mlflow=True,  # set to True to log params to mlflow
+                experiment_name=experiment,
+                distance_type=dist,
+                feateng=fe,
+                estimator=Lasso,
+            )
+            print("############   Loading Data   ############")
+            df = train_data(**params)
+            df = clean_df(df)
+            y_train = df["fare_amount"]
+            X_train = df.drop("fare_amount", axis=1)
+            del df
+            print("shape: {}".format(X_train.shape))
+            print("size: {} Mb".format(X_train.memory_usage().sum() / 1e6))
+            # Train and save model, locally and
+            t = Trainer(X=X_train, y=y_train, **params)
+            del X_train, y_train
+            print(colored("############  Training model   ############", "red"))
+            t.train()
+            print(colored("############  Evaluating model ############", "blue"))
+            t.evaluate()
+            print(colored("############   Saving model    ############", "green"))
+            t.save_model()

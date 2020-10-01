@@ -1,8 +1,22 @@
-##### Package params  - - - - - - - - - - - - - - - - - - -
+##### Package params ---------------
 
 PACKAGE_NAME=lyft
 FILENAME=trainer
 
+##### GCP Params -------------------
+
+BUCKET_NAME=wagon-ml-edgarminault-gcp
+
+REGION=europe-west4
+
+PYTHON_VERSION=3.7
+FRAMEWORK=scikit-learn
+RUNTIME_VERSION=1.15
+
+PACKAGE_NAME=lyft
+FILENAME=trainer
+
+JOB_NAME=lyft_training_linear_$(shell date +'%Y%m%d_%H%M%S')
 
 # ----------------------------------
 #          INSTALL & TEST
@@ -67,3 +81,18 @@ pypi_test:
 
 pypi:
 	@twine upload dist/* -u lologibus2
+
+# ----------------------------------
+#           MODELS ON GCP
+# ----------------------------------
+
+gcp_train:
+	@gcloud ai-platform jobs submit training ${JOB_NAME} \
+	--job-dir gs://${BUCKET_NAME}/${BUCKET_TRAINING_FOLDER}  \
+	--package-path ${PACKAGE_NAME} \
+	--module-name ${PACKAGE_NAME}.${FILENAME} \
+	--python-version=${PYTHON_VERSION} \
+	--runtime-version=${RUNTIME_VERSION} \
+	--region ${REGION} \
+	--stream-logs
+
