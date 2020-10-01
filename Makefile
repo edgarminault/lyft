@@ -1,3 +1,9 @@
+##### Package params  - - - - - - - - - - - - - - - - - - -
+
+PACKAGE_NAME=lyft
+FILENAME=trainer
+
+
 # ----------------------------------
 #          INSTALL & TEST
 # ----------------------------------
@@ -9,6 +15,9 @@ check_code:
 
 black:
 	@black scripts/* lyft/*.py
+
+run_locally:
+	@python -m ${PACKAGE_NAME}.${FILENAME}
 
 #test:
 #	@coverage run -m pytest tests/*.py

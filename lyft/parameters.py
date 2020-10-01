@@ -13,6 +13,7 @@ PROJECT_ID = "wagon-bootcamp-288408"
 ### GCP Storage - - - - - - - - - - - - - - - - - - - - - -
 
 BUCKET_NAME = "wagon-ml-edgarminault-gcp"
+BUCKET_TRAIN_DATA_PATH = "data/train_1k.csv"
 
 ##### Data  - - - - - - - - - - - - - - - - - - - - - - - -
 
